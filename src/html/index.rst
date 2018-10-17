@@ -1,9 +1,12 @@
 html
+**********
+
+tags
 ==========
 
+.. include tags
 
-.. toctree::
-   :maxdepth: 1
-   :caption: Contents:
+new featuers
+==========
 
-   tag
+.. include new-features
