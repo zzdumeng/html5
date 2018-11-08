@@ -1,0 +1,328 @@
+js中的面向对象
+**************
+
+什么是面向对象
+===============
+
+
+面向对象的三大特性: Encapsulation(封装), Inheritance(继承), Polymorphism(多态).
+
+
+封装
+----------
+
+隐藏对象行为的具体实现, 只提供给外界调用接口.
+保护内部的数据, 避免被外界修改.
+
+良好封装的标准:
+
+高内聚
+  模块内部的紧密程度
+
+低耦合
+  模块之间的关联程度
+
+
+
+成员可见性
+""""""""""""""""""""
+
+一般的面向对象语言有都有 *public*, *protected*, *private* 等
+限定符来确定成员变量和成员函数的可见性.
+
+JS中可以使用
+
+继承 
+--------
+
+子类继承父类的内容, 包括方法和属性.
+
+
+多态
+-----
+
+Polymorphism来自于希腊语, 指多种形态.
+多态有两种含义:
+
+1. 
+  程序运行时, 一个衍生类的对象可能被视作其基类的一个对象, 这样此
+  对象的声明类型和运行时类型并不一致.
+
+2.
+  基类可以定义和实现一些虚函数, 衍生类可以override重载这些虚函数.
+  在代码中, 对一个基类对象触发其函数, 在运行时, 如果此对象是衍生类的
+  对象, 那么实际上将触发重载过的函数.
+
+js中的面向对象的基本概念
+========================
+
+object(对象)
+---------------
+
+**Object** 类型的成员.
+
+一个对象object 在逻辑上实际是一组属性的集合.
+*property* (属性)或者是一个 *data property* (数据属性),
+或者是一个 *accessor property* (访问器属性)
+
+data property
+  数据属性将一个键值和一个有效值, 以及一个布尔值属性的集合
+  关联起来.
+
+accessor property
+  访问器属性将一个键值和一个或两个访问函数, 以及一个布尔值属性的集合
+  关联起来.
+
+
+
+property attribute (属性的特性)
+""""""""""""""""""""""""""""""
+
+*Attribute* (特性)用来描述 property(属性)的状态. 
+
+*data property*  的属性描述为
+
+- value
+- writable
+- enumerable
+- configurable
+
+*accessor property* 的属性描述为
+
+- get
+- set 
+- enumerable
+- configurable
+
+特性的详细介绍
+
+value
+  get访问此属性时返回的值
+
+get
+  必须为一个 *函数对象* 或者 *undefined*.
+
+set
+  同 *get*
+
+writable
+  如果为 *false*, 则无法修改此属性的 *value*
+
+enumerable
+  如果为 *true*, 那么此属性可以在 :code:`for-in` 循环中被获取到.
+
+configurable
+  是否可以删除此属性, 或者修改此属性的类型,
+  或者修改此属性的特性.
+
+.. code-block:: js
+
+  var obj = {
+    radius: 50,
+    _bar: null,
+  }
+  Object.defineProperty(obj, 'foo', {
+    value: 42,
+    writable: true,
+    enumerable: false,
+    configurable: false,
+  })
+
+  Object.defineProperty(obj, 'bar', {
+    get () { return this.radius * this.radius * Math.PI },
+    set (nv) { this.radius = Math.sqrt(nv/Math.PI)},
+
+  })
+
+.. note:: 
+
+  通过对象的 :code:`.` 操作符设置的属性为数据属性, 且特性
+  全部为 :code:`true`.
+  通过 :code:`Object.defineProperty` 定义属性时, 其
+  特性默认值为 :code:`false`.
+
+Internal Slot 和 Internal Method (内部空位和内部方法)
+""""""""""""""""""""""""""""""""""""""""""""""""""
+
+JS中, 一个对象的实际语义由内部方法确定.
+每一个对象都关联有多个内部方法, 这些方法决定对象的运行时行为.
+这些内部方法是多态的, 即当一个内部方法名被触发时,
+不同的对象可以执行不同的算法.
+如果在运行时, 某个算法调用了这个对象不支持的内部方法, 那么就会抛出 *TypeError*.
+
+函数对象有两个特殊的内部方法, :code:`[[Call]]` 和 :code:`[[Construct]]`,
+一个函数对象必须支持 :code:`[[Call]]`.
+每一个支持 :code:`[[Construct]]` 的对象同时也必须支持 :code:`[[Call]]` 方法.
+
+即: 一个 *constructor* 构造器必定是一个函数对象(所以也被称为构造函数), 但函数对象未必都是构造器.
+例如 :strike:`符号``Symbol``并不支持 *new* 元素符.` ``Math`` 中的方法.
+
+[[Call]]
+  执行函数对象关联的代码. 由函数调用表达式触发.
+
+[[Construct]]
+  返回一个对象, 由 *new* 或者 *super* 运算符触发.
+  支持此方法的对象成为 *constructor*.
+
+
+constructor(构造器)
+-------------------
+
+创建和初始化对象的函数对象.
+
+.. note:: 
+
+  *constructor* 的 :code:`prototype` 属性可以被用来实现
+  继承和共享属性.
+
+每一个对象都有 *constructor* 和 *__proto__* 属性,
+*constructor* 属性指向的是这个对象的构造函数,
+而 *__proto__* 指向的就是构造函数的 :code:`prototype` 属性.
+
+.. note:: 
+
+  一个对象的构造函数并不一定是其被构造出来时调用的函数
+
+  .. code-block:: js
+
+    Function Dog() {
+    }
+    var Dog2 = Dog.bind(this);  
+    Dog2 === Dog                    // false
+    var dog2 = new Dog2(); 
+    dog2.constructor === Dog        // true
+    dog2.constructor === Dog2        // false
+
+
+
+每一个用作 *constructor* 的函数都有一个 :code:`prototype` 属性.
+由 :code:`function.bind`  
+
+TODO:
+ES中内置的对象可以分为
+
+构造函数对象
+  String, Boolean, Number, Object, Symbol, Date, 等.
+  用来创建常用的对象.
+  Symbol 比较特殊, 它是一个构造函数对象, 但是不能使用 *new* 运算符.
+
+一般函数对象
+  不能用 *new* 来创建对象的函数
+
+一般对象 
+  Math 等
+  非函数对象
+
+
+
+prototype(原型)
+----------------
+
+给其他对象提供共享属性的对象.
+
+**从 %ObjectPrototype% 说起**
+
+*ObjectPrototype* 是 *Object* 函数的 *prototype*,
+
+**Function**
+
+*Function* 是固有对象 ``%Function%``, 用来实例化所有函数对象.
+当做函数来调用时和作为 *constructor* 使用时, 作用是一样的, 都实例化一个 Function 对象,
+即创建一个 *function*.
+*Function* 本身也是一个函数对象:
+
+.. code-block:: js
+
+  Function.constructor === Function               // true
+  Function.prototype.constructor === Function     // true
+
+**Function.prototype**
+
+*Function.prototype* 是固有对象 ``%FunctionProtype%``,
+它是一个内置的函数对象(不同于一般函数对象的的prototype 是非函数对象: 这是为了
+兼容以前版本的规范).
+它具有一个内部空位(InternalSlot) ``[[Prototype]]``, 值为固有对象 ``%ObjectPrototype%``
+
+
+
+可以被用作 *constructor* 的函数都有一个 *prototype*, 
+每当一个 *Function* 的实例被创造出来时, 同时一个
+
+.. note:: 
+
+  当 *constructor* 创建一个对象时, 此对象将隐式地引用这个 *constructor* 
+  的 :code:`prototype` 属性, 以进行属性查找.
+
+.. code-block:: js
+
+  function Car() {
+    this.velocity = 3;
+  }
+  Car.prototype.type = "CAR";
+
+  var a = new Car();
+  // a 的构造器是 Car, 同时将拥有 Car的原型prototype的所有
+  // 属性, 包括方法和值.
+
+.. danger:: 
+
+  *constructor* 属性不能作为一个可靠的测试一个对象的真正的构造函数.
+  因为它作为一个可以修改的属性, 可以被指向其他的对象
+
+  .. code-block:: js
+
+    var obj = new Object()
+    obj.constructor === Object          // true
+    obj instanceof Object               // true
+    obj.constructor = function () {}
+    obj.constructor === Object          // false, 已被修改
+    obj instanceof Object               // true
+
+.. note:: 
+
+  使用 *Object.getPrototypeOf* 来获得对象的原型, 来判断一个对象的构造函数.
+
+  .. code-block:: js
+
+  // 如上
+  Object.getPrototypeOf(obj) === Object.prototype
+  // 或者, 注意此方法只要是原型链上的对象都为真, 而不一定
+  // 是obj的直接原型
+  Object.prototype.isPrototypeOf(obj)
+  
+
+ordinary object(普通对象)
+------------------------------
+
+JS中实现OO
+======================
+
+继承 
+--------
+
+使用父类
+""""""""""""""""""""""""""""""
+
+.. code-block:: js
+
+  function Vehicle(speed) {
+    this.speed = speed 
+  }
+  Vehicle.prototype.drive = function() {
+    console.log('oooo')
+  }
+  function Car(wheels) {
+    this = Object.create(Vehicle.prototype)
+    Vehicle.call(this, 100)
+    
+    this.wheels = wheels
+  }
+  Car.prototype.stop = function() {
+    console.log('jjjjj')
+  }
+  var car = new Car(4)
+
+References
+============
+
+1. `ECMA 2018 specification <https://www.ecma-international.org/publications/files/ECMA-ST/Ecma-262.pdf>`_ 

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>live view template</title>
+  <style>
+    html,
+    body {
+      padding: 0;
+      margin: 0;
+    }
+
+    body {
+      padding: 10px;
+      height: 100vh;
+      box-sizing: border-box;
+    }
+
+    .html5-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: row;
+    }
+
+    .html5-editor {
+      max-width: 250px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #editor {
+      flex: 1;
+      resize: none;
+    }
+
+    #reset {
+      align-self: flex-end;
+      margin-top: auto;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 5px;
+      background-color: green;
+      color: #fff;
+    }
+
+    .html5-result {
+      flex: 1;
+      outline: solid 1px black;
+      padding: 10px;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .h-ruler {
+      position: absolute;
+      left: 10px;
+      top: 0;
+    }
+
+    .v-ruler {
+      position: absolute;
+      top: 10px;
+      left: 0;
+    }
+
+    .html5-result iframe {
+      height: 100%;
+      width: 100%;
+      outline: solid 1px lightgray;
+    }
+    .v-ruler {
+      width: 10px;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- css live view  -->
+  <div class="html5-container">
+    <div class="html5-editor">
+      <textarea name="" id="editor" cols="30" rows="10"></textarea>
+      <button id="reset">reset</button>
+    </div>
+    <div class="html5-result">
+      <!-- <div class="v-ruler"></div>
+      <div class="h-ruler"></div> -->
+      <svg class="v-ruler" xmlns="http://www.w3.org/2000/svg"></svg>
+      <iframe src="" frameborder="0"></iframe>
+    </div>
+  </div>
+  <script>
+    var $ = document.querySelector.bind(document);
+    var $$ = document.querySelectorAll.bind(document);
+    EventTarget.prototype.on = EventTarget.prototype.addEventListener
+    var editor = $('#editor')
+    var resultPanel = $('.html5-result')
+    var resetButton = $('#reset')
+    var frame = document.querySelector('.html5-result iframe')
+
+    function createRulers() {
+      var vRuler = $('.html5-result .v-ruler')
+      var h = vRuler.parentElement.clientHeight
+      var p = document.createElement('path')
+      var data = ''
+      var h2 = 0
+      while(h2<h) {
+        data += `M 0,${h2} h 10 `
+        h2 += 50
+      }
+      data += ' z'
+      p.setAttribute('d',  data)
+      p.setAttribute('stroke', 'black')
+      p.setAttribute('stroke-width',  '1')
+      vRuler.setAttribute('viewBox', `0 0 10 ${h}`)
+      vRuler.style.height = h + 'px'
+      // p.stroke = 'black'
+      // p.strokeWidth = '1'
+      vRuler.appendChild(p)
+
+   var hRuler = $('.html5-result .v-ruler')
+      var w = vRuler.parentElement.clientWidth
+      var p2 = document.createElement('path')
+      var data2 = ''
+      var w2 = 0
+      while(w2<w) {
+        data2 += `M ${w2},0 v 10 `
+        w2 += 50
+      }
+      data2 += ' z'
+      p2.setAttribute('d',  data2)
+      p2.setAttribute('stroke', 'black')
+      p2.setAttribute('stroke-width',  '1')
+      hRuler.setAttribute('viewBox', `0 0  ${w} 10`)
+      hRuler.style.width = w + 'px'
+      // p.stroke = 'black'
+      // p.strokeWidth = '1'
+      hRuler.appendChild(p2)
+    }
+
+    function initIframe() {
+      const dt = document.implementation.createDocumentType('html', "", "")
+      frame.contentDocument.doctype = dt
+
+    }
+
+    function updateBody(h) {
+      frame.contentDocument.body.innerHTML = h
+    }
+    function updateStyle(c) {
+      frame.contentDocument.head.innerHTML = `
+        <style> ${c}
+          </style>
+      `
+    }
+    function setEditor(v) {
+      editor.value = v
+    }
+
+    function daunt(fn) {
+      var timing = false
+      var t
+      return function () {
+        if (timing) {
+          clearTimeout(t)
+          t = setTimeout(function () {
+            timing = false
+            fn()
+          }, 1000)
+        } else {
+          timing = true
+          t = setTimeout(function () {
+            timing = false
+            fn()
+          }, 1000)
+        }
+      }
+    }
+
+    function main() {
+      const initialBody = `
+        <h2>sdf</h2>
+      `
+      const initialStyle = `
+        h2 {color: red;}
+      `
+
+      initIframe()
+      createRulers()
+      updateBody(initialBody)
+      updateStyle(initialStyle)
+      setEditor(initialStyle)
+      editor.on('input', daunt(function () {
+        // set the style of iframe
+        updateStyle(editor.value)
+      })
+      )
+      reset.on('click', function () {
+        setEditor(initialStyle)
+        updateStyle(initialStyle)
+      })
+    }
+    main()
+  </script>
+</body>
+
+</html>

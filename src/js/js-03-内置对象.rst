@@ -1,0 +1,11 @@
+内置对象
+*********
+
+- String
+- Array
+- Object
+- Function
+- Math
+- Date
+- RegExp
+- 

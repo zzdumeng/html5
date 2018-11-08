@@ -13,6 +13,7 @@ Welcome to html5's documentation!
   src/html/index
   src/css/index
   src/js/index
+  src/js/bom.rst
 
 Indices and tables
 ==================

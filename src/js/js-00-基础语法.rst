@@ -1,0 +1,52 @@
+00 - js 基础语法
+******************************
+
+数据类型
+=============
+
+7种数据类型:
+
+- Null
+- Undefined
+- Boolean
+- Number
+- String
+- Symbol
+- Object
+
+primitive value (基本数值)
+---------------------------
+
+除了Object之外的6种数据类型的值.
+对 *Null*, *Undefined* 这两种数据类型, 都只包含一个值.
+对 *Boolean*, *Number*, *String*, *Symbol*,
+这几种数据类型的值
+其中, *Boolean* 和 *String* 的基本数值可以直接用作相应的对象来调用方法.
+
+.. code-block:: js
+
+  var s = new String('hello');  // 一个字符串对象
+  var sp = String(s);           // 字符串对象可以通过String函数转换为字符串值
+
+  var b = true
+  b.toString()                // 布尔值也可以直接调用方法
+
+.. note:: A primitive value is a datum that is represented directly at the lowest level of the language
+implementation
+
+  *基本数据* 指的是语言实现的最底层上, 直接能够指代的数据.
+
+内置常用对象
+=============
+
+- Number
+- String
+- Boolean
+- Array
+- Function
+- RegExp
+- Date
+- Math
+- Image 
+- Audio
+- Object 
