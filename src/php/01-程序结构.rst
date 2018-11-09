@@ -1,0 +1,22 @@
+
+可以通过 ``include`` 和 ``require`` 引入其他文件的内容。
+
+include
+  若引入文件不存在或发生错误， 将抛出一个 **E_WARNING**
+  级别的fatal error。
+
+require 
+  若引入文件不存在或发生错误， 将抛出一个 **E_COMPILE_ERROR**
+  级别的fatal error。
+  
+
+两者都可以引入多次，使用 ``include_once`` 和 ``require_once``
+来
+
+.. note:: 
+
+  引入其他文件的内容时，最好使用绝对路径，
+  否则在recursively 引入的时候， 容易导致路径解析错误。
+  .. code-block:: php
+  
+    include __DIR__ . "../file/to/include";
