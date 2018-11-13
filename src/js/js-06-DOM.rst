@@ -1,5 +1,7 @@
-Document Object Model(DOM) 文档对象模型
+js/06/文档对象模型(DOM)
 ****************************
+
+Document Object Model
 
 文档解析
 ==========

@@ -129,6 +129,11 @@ latex_elements = {
     # Latex figure (float) alignment
     #
     # 'figure_align': 'htbp',
+    'preamble': '''
+\usepackage{pstricks}  % since the dash is rendered by pstricks!
+\usepackage[postscript]{ucs}
+\usepackage[utf8x]{inputenc}
+'''
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
@@ -187,5 +192,6 @@ epub_exclude_files = ['search.html']
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
 
+
 def setup(app):
-  app.add_stylesheet('css/main.css')
+    app.add_stylesheet('css/main.css')
