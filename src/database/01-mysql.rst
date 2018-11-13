@@ -1,10 +1,18 @@
 mysql
 ***********
 
-先安装 *mysql-client*
+ mysql简介 
+=================
+
+
+
+
+
 
 终端客户端常用命令
 ================
+
+先安装 *mysql-client*
 
 show databases;
   显示所有数据库
@@ -25,5 +33,3 @@ show global variables like 'port'
   获取mysql server所用端口
   .. note:: global variables 存储有全局变量
 
-
-  
