@@ -1,4 +1,4 @@
-js/11/canvas
+js-11-canvas
 **************
 
 canvas 能做什么?

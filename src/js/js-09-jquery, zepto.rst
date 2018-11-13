@@ -1,2 +1,2 @@
-js/09/jquery, zepto
+js-09-jquery, zepto
 *******************************

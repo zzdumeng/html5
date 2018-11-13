@@ -132,7 +132,7 @@ latex_elements = {
     'preamble': '''
 \usepackage{pstricks}  % since the dash is rendered by pstricks!
 \usepackage[postscript]{ucs}
-\usepackage[utf8x]{inputenc}
+\usepackage[utf8]{inputenc}
 '''
 }
 

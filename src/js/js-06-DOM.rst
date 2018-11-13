@@ -1,4 +1,4 @@
-js/06/文档对象模型(DOM)
+js-06-文档对象模型(DOM)
 ****************************
 
 Document Object Model

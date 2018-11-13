@@ -1,4 +1,4 @@
-db/01/mysql
+db-01-mysql
 ***********
 
  mysql简介 

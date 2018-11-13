@@ -1,4 +1,4 @@
-php/00/basic
+php-00-basic
 *************
 
 ``echo`` and ``print``

@@ -14,15 +14,11 @@ Welcome to html5's documentation!
   src/html/html-01-文档结构
   src/html/html-02-标签
   src/html/html-03-语义化和编码规范
-  src/css/index
   src/css/css-00-介绍
   src/css/css-01-属性,选择器
   src/css/css-02-布局
   src/css/css-03-动画
 
-  src/css/index
-  src/js/index
-  src/js/bom.rst
   src/js/js-00-基础语法
   src/js/js-01-循环,分支
   src/js/js-02-函数,闭包
