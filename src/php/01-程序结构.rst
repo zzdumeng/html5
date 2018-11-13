@@ -3,7 +3,6 @@
 
 include
   若引入文件不存在或发生错误， 将抛出一个 **E_WARNING**
-  级别的fatal error。
 
 require 
   若引入文件不存在或发生错误， 将抛出一个 **E_COMPILE_ERROR**

@@ -1,0 +1,44 @@
+表单
+***************
+
+- 表单
+===============
+
+- 表单中的
+
+
+文件上传
+==============
+
+- 设置 *form*　属性　``enctype="multipart/form-data``
+- 设置 *form* 的 ``method`` 为 ``POST``
+
+服务器的`php.ini` 文件里可以配置 ``max_file_upload_size``
+和 ``max_post_size``
+
+文件会存在超全局变量 ``$_FILES``里, 其属性有
+
+- name
+- tmp_name
+- error
+- type
+- size
+
+在文件上传的表单元素前, 添加一个隐藏的directive, 
+可以限制上传文件的大小:
+
+.. code-block:: html
+
+  <input type="hidden" name="MAX_FILE_SIZE" value="100000">
+  <input type="file" name="avatar">
+
+以上将限制上传大小为100k(大约), 如果用户添加的文件大小大于100k,
+文件将不会被接收, 其 ``error`` 属性为2.
+
+所以在处理文件上传时, 需要先判断 ``error`` 的值.
+
+.. note:: ``MAX_FILE_SIZE`` 需要写在上传表单元素的前面.
+
+
+error code:
+:ref:`http://www.php.net/manual/en/features.file-upload.errors.php` 
